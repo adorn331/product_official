@@ -17,9 +17,9 @@ services:
             - "3306"
         environment:
             - MYSQL_DATABASE=product_official
-            - MYSQL_ROOT_PASSWORD=Hustonline87542701
+            - MYSQL_ROOT_PASSWORD=
             - MYSQL_USER=product_official
-            - MYSQL_PASSWORD=Hustonline87542701product_official
+            - MYSQL_PASSWORD=
         volumes:
             - ./db/lib:/var/lib/mysql
             - ./db/conf:/etc/mysql/conf.d
