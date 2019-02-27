@@ -1,0 +1,45 @@
+version: "2"
+services:
+    api:
+        build: ./product_official
+        volumes:
+            - ./product_official:/project
+        command: sh run.sh
+        links:
+            - mysql_db
+            - redis_cache
+        volumes_from:
+            - static
+    mysql_db:
+        image: mysql:5.7
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci  
+        expose:
+            - "3306"
+        environment:
+            - MYSQL_DATABASE=product_official
+            - MYSQL_ROOT_PASSWORD=Hustonline87542701
+            - MYSQL_USER=product_official
+            - MYSQL_PASSWORD=Hustonline87542701product_official
+        volumes:
+            - ./db/lib:/var/lib/mysql
+            - ./db/conf:/etc/mysql/conf.d
+            - ./db:/project
+    redis_cache:
+        image: redis
+    nginx_server:
+        image: nginx
+        volumes:
+            - ./nginx:/project
+            - ./nginx/conf:/etc/nginx/conf.d/
+        links:
+            - api
+        ports:
+            - "36877:80"
+        volumes_from:
+            - static
+
+    static:
+        image: ubuntu
+        volumes:
+            - ./static:/static
+        command: chmod -R 777 static/
